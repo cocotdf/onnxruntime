@@ -161,6 +161,14 @@ std::unordered_set<NodeIndex> GetCpuPreferredNodes(const onnxruntime::GraphViewe
         break;
       }
     }
+    if (place_in_cpu) {
+      const std::string& op_type = node->OpType();
+      if (op_type == "Rfft" || op_type == "Irfft") {
+        place_in_cpu = false;
+        LOGS(logger, INFO) << "Skip CPU fallback for node: " << node->Name()
+                           << " (" << op_type << ") because no CPU kernel is available.";
+      }
+    }
 
     if (place_in_cpu) {
       cpu_nodes.insert(cur);
