@@ -172,6 +172,10 @@ template <>
 MLDataType DataTypeImpl::GetType<Int4x2>() { return Provider_GetHost()->DataTypeImpl__GetType_Int4x2(); }
 template <>
 MLDataType DataTypeImpl::GetType<UInt4x2>() { return Provider_GetHost()->DataTypeImpl__GetType_UInt4x2(); }
+template <>
+MLDataType DataTypeImpl::GetType<Int2x4>() { return Provider_GetHost()->DataTypeImpl__GetType_Int2x4(); }
+template <>
+MLDataType DataTypeImpl::GetType<UInt2x4>() { return Provider_GetHost()->DataTypeImpl__GetType_UInt2x4(); }
 
 #if !defined(DISABLE_FLOAT4_TYPES)
 template <>
@@ -222,6 +226,10 @@ template <>
 MLDataType DataTypeImpl::GetTensorType<Int4x2>() { return Provider_GetHost()->DataTypeImpl__GetTensorType_Int4x2(); }
 template <>
 MLDataType DataTypeImpl::GetTensorType<UInt4x2>() { return Provider_GetHost()->DataTypeImpl__GetTensorType_UInt4x2(); }
+template <>
+MLDataType DataTypeImpl::GetTensorType<Int2x4>() { return Provider_GetHost()->DataTypeImpl__GetTensorType_Int2x4(); }
+template <>
+MLDataType DataTypeImpl::GetTensorType<UInt2x4>() { return Provider_GetHost()->DataTypeImpl__GetTensorType_UInt2x4(); }
 
 #if !defined(DISABLE_FLOAT4_TYPES)
 template <>
@@ -644,6 +652,7 @@ Tensor* AttentionBase::GetPresent(OpKernelContext* context, const Tensor* past, 
 }
 
 namespace transformers {
+#if !defined(DISABLE_GENERATION_OPS)
 void BeamSearch::Init(const OpKernelInfo& info) { g_host_cpu.BeamSearch__Init(this, info); }
 
 Status BeamSearch::Compute(OpKernelContext* ctx) const { return g_host_cpu.BeamSearch__Compute(this, ctx); }
@@ -681,6 +690,7 @@ Status Sampling::SetupSubgraphExecutionInfo(const SessionState& session_state, c
                                             const SessionState& subgraph_session_state) {
   return g_host_cpu.Sampling__SetupSubgraphExecutionInfo(this, session_state, attribute_name, subgraph_session_state);
 }
+#endif  // !defined(DISABLE_GENERATION_OPS)
 }  // namespace transformers
 
 #ifdef ENABLE_ATEN
